@@ -1,5 +1,6 @@
-import pandas as pd 
+
 from random import choices
+import pandas as pd
 
 def expected_expense(csvfile):
     """
