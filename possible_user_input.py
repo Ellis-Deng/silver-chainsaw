@@ -28,7 +28,7 @@ class Spendings:
         self.budget = budget
         self.num_purchases = num_purchases
     
-    def purchases(self):
+    def purchases(self, amount, expense):
         """Creates a dictionary of purchases
         
         Returns:
@@ -42,8 +42,6 @@ class Spendings:
             Prints to console"""
         expense_info = {}
         for x in range(self.num_purchases):
-            expense = input("What expense did you spend money on: ")
-            amount = float(input("How much did you spend: "))
             if isinstance(amount,float) == False:
                 raise TypeError
             total_spent = amount + total_spent
@@ -71,6 +69,15 @@ class Spendings:
         with open(file,"w",encoding="utf-8") as f:
             if self.commit == True:
                 f.write(self.expense_info)
+
+
         
-        
-    
+expense = input("What expense did you spend money on: ")
+amount = float(input("How much did you spend: "))
+num_purchases = int(input("How many purchases did you make: "))
+budget = int(input("What is your budget: "))
+spendings = Spendings()
+spendings.__init__(num_purchases,budget)
+spendings.purchases(amount,expense)
+commit = input("Would you like to commit to a file: ")
+spendings.file_commit(commit,spendings.txt)
