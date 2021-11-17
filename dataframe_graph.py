@@ -1,6 +1,6 @@
 """This is a possible way to turn a CSV file into a dataframe and then create 
-a different graphs for the data. Also, creating a new dataset for the average amount that
-an individual spends on a specific item."""
+a time series graph for the data. Also, creating a new dataset for the average 
+amount that an individual spends on a specific item."""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -35,3 +35,9 @@ def graph(purchase_data):
     plt.title('Purchases')
     return plt.show()
 
+def average(purchase_data):
+    """
+
+    Args:
+        purchase_data ([type]): [description]
+    """

@@ -15,7 +15,7 @@ class Spendings:
         price paid for them
         
     """
-    def __init__(self, num_purchases, budget = None):
+    def __init__(self, amount, expense, num_purchases, budget = None):
         """Initializes values
         
         Args: 
@@ -27,26 +27,23 @@ class Spendings:
         
         self.budget = budget
         self.num_purchases = num_purchases
+        self.amount = amount
+        self.expense = expense
     
-    def purchases(self, amount, expense):
+    def purchases(self):
         """Creates a dictionary of purchases
         
         Returns:
             dictionary: a representation of all the purchases made
             
-        Raises:
-            TypeError: The amount spent was not a float
-            
         Side effects:
-            Expects input from the user
             Prints to console"""
         expense_info = {}
-        for x in range(self.num_purchases):
-            if isinstance(amount,float) == False:
-                raise TypeError
-            total_spent = amount + total_spent
-            if (total_spent > self.budget):
-                print("You are out of money, no more purchases can be made")                
+        
+        total_spent = self.amount
+        if (total_spent > self.budget):
+            print("You are out of money, no more purchases can be made")
+        else:        
             date = input("What date did you spend this on: ")
             expense_info[date] = amount, expense
         self.expense_info = expense_info
@@ -71,13 +68,14 @@ class Spendings:
                 f.write(self.expense_info)
 
 
-        
-expense = input("What expense did you spend money on: ")
-amount = float(input("How much did you spend: "))
+
 num_purchases = int(input("How many purchases did you make: "))
 budget = int(input("What is your budget: "))
-spendings = Spendings()
-spendings.__init__(num_purchases,budget)
-spendings.purchases(amount,expense)
+for x in range(num_purchases):
+    expense = input("What expense did you spend money on: ")
+    amount = float(input("How much did you spend: "))
+    expense_object = Spendings(amount, expense, num_purchases, budget)
+    expense_object.purchases()
+
+
 commit = input("Would you like to commit to a file: ")
-spendings.file_commit(commit,spendings.txt)
