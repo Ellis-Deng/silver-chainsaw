@@ -37,8 +37,10 @@ class Spendings:
             
         Side effects:
             Prints to console"""
-        data = {'Item Type': self.item_type, 'Item': self.item, 'Cost': self.cost}
+        data = {'Date': self.date,'Item Type': self.item_type, 
+                'Item': self.item, 'Cost': self.cost}
         df = pd.DataFrame(data, index=self.date)
+        self.df = df
         return(df)
     
     def file_commit(self, commit, file):
@@ -54,16 +56,16 @@ class Spendings:
         Side effects:
             Writes data to a file"""
         
-        self.commit = commit
         with open(file,"w",encoding="utf-8") as f:
-            if self.commit == True:
-                f.write(self.expense_info)
+            if commit == True:
+                self.df.to_csv(f, mode = 'a')
 
 date_list = []
 item_type_list = []
 item_list = []
 cost_list = []
 counter = 0
+
 print("Welcome to the input for your purchases. If you wish to stop making " + 
       "purchases at any time, you can enter 0 for the cost of the item.")
 while True:
@@ -78,8 +80,10 @@ while True:
     date = input("On what date did you make the purchase: ")
     date_list.append(date)
     counter+=1
-user_data = Spendings(cost_list, item_type_list, item_list, date_list)
-print(user_data.sort())
-print(f"You have made {counter} purchases")
+    user_data = Spendings(cost_list, item_type_list, item_list, date_list)
+    print(user_data.sort())
+print(f"You have made {counter} purchases overall")
 if counter > 0:
     commit = input("Would you like to commit to a file: ")
+    if commit == 'y':
+        user_data.file_commit(True,"sample_data.csv")
