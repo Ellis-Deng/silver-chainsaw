@@ -1,3 +1,4 @@
+import pandas as pd
 """A possible way to record user input on their spendings"""
 
 class Spendings:
@@ -15,7 +16,7 @@ class Spendings:
         price paid for them
         
     """
-    def __init__(self, amount, expense, num_purchases, budget = None):
+    def __init__(self, date, item_type, item, cost):
         """Initializes values
         
         Args: 
@@ -25,10 +26,10 @@ class Spendings:
         Side effects:
             initializes values"""
         
-        self.budget = budget
-        self.num_purchases = num_purchases
-        self.amount = amount
-        self.expense = expense
+        self.date = date
+        self.item_type = item_type
+        self.item = item    
+        self.cost = cost
     
     def purchases(self):
         """Creates a dictionary of purchases
@@ -38,16 +39,7 @@ class Spendings:
             
         Side effects:
             Prints to console"""
-        expense_info = {}
-        
-        total_spent = self.amount
-        if (total_spent > self.budget):
-            print("You are out of money, no more purchases can be made")
-        else:        
-            date = input("What date did you spend this on: ")
-            expense_info[date] = amount, expense
-        self.expense_info = expense_info
-        return(self.expense_info)
+        return 0
     
     def file_commit(self, commit, file):
         """Initializes values
