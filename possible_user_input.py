@@ -16,7 +16,7 @@ class Spendings:
         price paid for them
         
     """
-    def __init__(self, date, item_type, item, cost):
+    def __init__(self, cost, item_type, item, date):
         """Initializes values
         
         Args: 
@@ -25,13 +25,11 @@ class Spendings:
         
         Side effects:
             initializes values"""
-        
-        self.date = date
-        self.item_type = item_type
-        self.item = item    
-        self.cost = cost
-    
-    def purchases(self):
+        self.item_type = list(item_type)
+        self.item = list(item)
+        self.cost = list(cost)
+        self.date = list(date)
+    def sort(self):
         """Creates a dictionary of purchases
         
         Returns:
@@ -39,7 +37,9 @@ class Spendings:
             
         Side effects:
             Prints to console"""
-        return 0
+        data = {'Item Type': self.item_type, 'Item': self.item, 'Cost': self.cost}
+        df = pd.DataFrame(data, index=self.date)
+        return(df)
     
     def file_commit(self, commit, file):
         """Initializes values
@@ -59,15 +59,27 @@ class Spendings:
             if self.commit == True:
                 f.write(self.expense_info)
 
-
-
-num_purchases = int(input("How many purchases did you make: "))
-budget = int(input("What is your budget: "))
-for x in range(num_purchases):
-    expense = input("What expense did you spend money on: ")
-    amount = float(input("How much did you spend: "))
-    expense_object = Spendings(amount, expense, num_purchases, budget)
-    expense_object.purchases()
-
-
-commit = input("Would you like to commit to a file: ")
+date_list = []
+item_type_list = []
+item_list = []
+cost_list = []
+counter = 0
+print("Welcome to the input for your purchases. If you wish to stop making " + 
+      "purchases at any time, you can enter 0 for the cost of the item.")
+while True:
+    cost = float(input("How much did your item cost: "))
+    if cost == 0:
+        break
+    cost_list.append(cost)
+    item_type = input("What kind of item did you buy: ")
+    item_type_list.append(item_type)
+    item = input("What item did you buy: ")
+    item_list.append(item)
+    date = input("On what date did you make the purchase: ")
+    date_list.append(date)
+    counter+=1
+user_data = Spendings(cost_list, item_type_list, item_list, date_list)
+print(user_data.sort())
+print(f"You have made {counter} purchases")
+if counter > 0:
+    commit = input("Would you like to commit to a file: ")
