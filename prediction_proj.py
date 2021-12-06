@@ -4,7 +4,7 @@ Then, the program takes this number,  and adds the amount of an extra/bonus item
 Then, the program determines if this additional item is a bad idea or not."""
 
 def average(file, folder):
-    """This function scrapes data and makes an average budget for a week, whih is then used by the following functions as well.
+    """This function scrapes data and makes an average budget for weeks, which is then used by the following functions as well.
     It reads the daily spendatures, then compiles them into an average budget to be used later. 
     
     Args: the file, preferably in text format, and the folder where the data comes from.
@@ -12,10 +12,16 @@ def average(file, folder):
     Returns: average cost"""
     
     with open (file, "r", encoding = "utf-8") as f: 
-        
-        return 
+        total_sum = 0
+        count = 0
+        for line in f:
+            week = line.split(",")
+            for number in week:
+                count = count + 1
+                total_sum = total_sum + int(number)
+        return total_sum/count
           
-def determine(max, avg):
+def determine(price, max, file, folder):
     """This function determines if the additional item added to the average cost would go over 
     the maximum budget alloted by the program and user. The average cost is determined from the average() function
     
@@ -25,6 +31,8 @@ def determine(max, avg):
     Returns: a statement that declares whether or not """
     
     """cost = 0 but will be updated each time there is a new item with a different price"""
-    cost = 0 
-    if (avg + cost < max):
-        return
+    avg = average(file, folder)
+    if (avg + price < max):
+        return False
+    else:
+        return True
