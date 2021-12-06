@@ -93,10 +93,12 @@ while True:
     counter+=1
     user_data = Spendings(cost_list, item_type_list, item_list, date_list)
     print(user_data.create_df())
-print(f"You have made {counter} purchases overall")
+if counter == 1:
+    print(f"You have made {counter} purchase overall")
+else:
+    print(f"You have made {counter} purchases overall")
 if counter > 0:
     commit = input("Would you like to commit to a file: ")
     if commit == 'y':
         user_data.file_commit(True,"sample_data.csv")
-    else:
-            print("Thank you for using the program!")
+print("Thank you for using the program!")
