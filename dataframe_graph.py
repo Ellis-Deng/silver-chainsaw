@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 def open_file(purchase_data):
     """Opens a CSV file and turns it into a dataframe.
 
-    Args:
+    Args:cl
         purchase_data: the name of the dataframe that the data is going to be
         stored into. 
         
     Returns:
         A dataframe for the inputed CSV file.
     """
-    purchase_data = pd.read_csv("money-spent.csv")
+    purchase_data = pd.read_csv("sample_data.csv")
     return purchase_data
 
 def graph(purchase_data):
@@ -43,8 +43,10 @@ def average_dataframe(purchase_data):
     Returns:
         A new dataframe that contains the average amount of money spent on each
     """
-    columns = purchase_data["item", "price"]
+    columns = purchase_data["Item", "Cost"]
     item_price = purchase_data[columns]
-    avg_price = item_price.groupby("item")["price"].mean()
+    avg_price = item_price.groupby("Item")["Cost"].mean()
+    pie_chart = avg_price.plot.pie(y='Cost', figsize=(5,5))
+    print(pie_chart)
     return avg_price
     
