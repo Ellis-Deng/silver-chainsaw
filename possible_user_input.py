@@ -67,11 +67,8 @@ class Spendings:
         
         Side effects:
             Writes data to a file"""
-        dframe = pd.read_csv(open(file))
-        #print(dframe)
         if commit == True:
             self.df.to_csv(file, mode='a', header=False, index=False)
-            print(dframe)
             
 
 date_list = []
