@@ -37,20 +37,21 @@ def graph(self):
     plt.xlabel('Date')
     plt.ylabel('Cost in $')
     plt.grid(True)
-    return plt.show()
+    plt.show()
 
-def average_dataframe(self):
-    """Creates a new dataframe for the average of each item given in the data. 
-
-    Args:
-        purchase_data (DataFrame): a dataframe of all purchases.
+def avg_pie(self):
+    """Creates a new dataframe and a pie graph for the average of each item type 
+    given in the data. 
         
     Returns:
-        A new dataframe that contains the average amount of money spent on each
+        A new dataframe and pie chart for the average percentage spent 
+        on each item type.
     """
-    columns = self.purchase_data["Item", "Cost"]
-    item_price = self.purchase_data[columns]
-    avg_price = item_price.groupby("Item")["Cost"].mean()
-    pie_chart = avg_price.plot.pie(y='Cost', figsize=(5,5))
-    print(pie_chart)
-    return avg_price    
+    avg = self.purchase_data.groupby("Item type")["Cost"].mean()
+    pie_graph = avg.plot(
+    kind='pie', autopct='%1.1f%%', explode=(0.1, 0.1, 0.1, 0.1),
+    title='Average Percentage Spent Per Item Type',
+    figsize=(7,7),
+    startangle=90
+    )
+    plt.show()
