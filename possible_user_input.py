@@ -6,22 +6,34 @@ class Spendings:
     
     
     Attributes:
-        total (int): the total amount that a user spend in a given amount of 
-        time        
+        cost (list): 
+            a list of the cost of the items that a user buys
         
-        num_purchases (int): the amount of purchases a user makes
+        item_type (int): 
+            a list of the types of items a user spends their money on
         
-        expense_info (dictionary): a dictionary where the keys are the 
-        date of the purchase and the values are the items bought and the 
-        price paid for them
+        item (list): 
+            a list of the specific items a user buys
+        
+        date (list): 
+            a list of the dates that a user made their purchases
         
     """
     def __init__(self, cost, item_type, item, date):
         """Initializes values
         
         Args: 
-            num_purchases(int): the number of purchases a user has made
-            budget(int): the amount of money a user is permitted to spend
+            cost (list): 
+                a list of the cost of the items that a user buys
+        
+            item_type (int): 
+                a list of the types of items a user spends their money on
+            
+            item (list): 
+                a list of the specific items a user buys
+            
+            date (list): 
+                a list of the dates that a user made their purchases
         
         Side effects:
             initializes values"""
@@ -29,22 +41,22 @@ class Spendings:
         self.item = list(item)
         self.cost = list(cost)
         self.date = list(date)
-    def sort(self):
-        """Creates a dictionary of purchases
+        
+    def create_df(self):
+        """Creates a dataframe of purchases
         
         Returns:
-            dictionary: a representation of all the purchases made
+            df: a dataframe of all the purchases made
+            """
             
-        Side effects:
-            Prints to console"""
         data = {'Date': self.date,'Item Type': self.item_type, 
                 'Item': self.item, 'Cost': self.cost}
-        df = pd.DataFrame(data, index=self.date)
+        df = pd.DataFrame(data)
         self.df = df
-        return(df)
+        return(df.to_string(index=False))
     
     def file_commit(self, commit, file):
-        """Initializes values
+        """Sends the user created df to a .csv file
         
         Args: 
             commit(boolean): whether or not the purchases want to be added to
@@ -55,10 +67,12 @@ class Spendings:
         
         Side effects:
             Writes data to a file"""
-        
-        with open(file,"w",encoding="utf-8") as f:
-            if commit == True:
-                self.df.to_csv(f, mode = 'a')
+        dframe = pd.read_csv(open(file))
+        #print(dframe)
+        if commit == True:
+            self.df.to_csv(file, mode='a', header=False, index=False)
+            print(dframe)
+            
 
 date_list = []
 item_type_list = []
@@ -81,9 +95,11 @@ while True:
     date_list.append(date)
     counter+=1
     user_data = Spendings(cost_list, item_type_list, item_list, date_list)
-    print(user_data.sort())
+    print(user_data.create_df())
 print(f"You have made {counter} purchases overall")
 if counter > 0:
     commit = input("Would you like to commit to a file: ")
     if commit == 'y':
         user_data.file_commit(True,"sample_data.csv")
+    else:
+            print("Thank you for using the program!")
