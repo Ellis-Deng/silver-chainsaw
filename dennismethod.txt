@@ -1,0 +1,11 @@
+expense_predictor():
+"""
+The purpose of this method will be to predict the next expense 
+a person will make depending on the already known expenses by using 
+probabilities and random generator
+
+Args:
+    dataframe: The dataframe that contains all the expenses 
+Return:
+    a str of the random item that is generated 
+"""

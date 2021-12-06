@@ -1,3 +1,4 @@
+import pandas as pd
 """A possible way to record user input on their spendings"""
 
 class Spendings:
@@ -5,52 +6,57 @@ class Spendings:
     
     
     Attributes:
-        total (int): the total amount that a user spend in a given amount of 
-        time        
+        cost (list): 
+            a list of the cost of the items that a user buys
         
-        num_purchases (int): the amount of purchases a user makes
+        item_type (int): 
+            a list of the types of items a user spends their money on
         
-        expense_info (dictionary): a dictionary where the keys are the 
-        date of the purchase and the values are the items bought and the 
-        price paid for them
+        item (list): 
+            a list of the specific items a user buys
+        
+        date (list): 
+            a list of the dates that a user made their purchases
         
     """
-    def __init__(self, amount, expense, num_purchases, budget = None):
+    def __init__(self, cost, item_type, item, date):
         """Initializes values
         
         Args: 
-            num_purchases(int): the number of purchases a user has made
-            budget(int): the amount of money a user is permitted to spend
+            cost (list): 
+                a list of the cost of the items that a user buys
+        
+            item_type (int): 
+                a list of the types of items a user spends their money on
+            
+            item (list): 
+                a list of the specific items a user buys
+            
+            date (list): 
+                a list of the dates that a user made their purchases
         
         Side effects:
             initializes values"""
+        self.item_type = list(item_type)
+        self.item = list(item)
+        self.cost = list(cost)
+        self.date = list(date)
         
-        self.budget = budget
-        self.num_purchases = num_purchases
-        self.amount = amount
-        self.expense = expense
-    
-    def purchases(self):
-        """Creates a dictionary of purchases
+    def create_df(self):
+        """Creates a dataframe of purchases
         
         Returns:
-            dictionary: a representation of all the purchases made
+            df: a dataframe of all the purchases made
+            """
             
-        Side effects:
-            Prints to console"""
-        expense_info = {}
-        
-        total_spent = self.amount
-        if (total_spent > self.budget):
-            print("You are out of money, no more purchases can be made")
-        else:        
-            date = input("What date did you spend this on: ")
-            expense_info[date] = amount, expense
-        self.expense_info = expense_info
-        return(self.expense_info)
+        data = {'Date': self.date,'Item Type': self.item_type, 
+                'Item': self.item, 'Cost': self.cost}
+        df = pd.DataFrame(data)
+        self.df = df
+        return(df.to_string(index=False))
     
     def file_commit(self, commit, file):
-        """Initializes values
+        """Sends the user created df to a .csv file
         
         Args: 
             commit(boolean): whether or not the purchases want to be added to
@@ -61,21 +67,36 @@ class Spendings:
         
         Side effects:
             Writes data to a file"""
-        
-        self.commit = commit
-        with open(file,"w",encoding="utf-8") as f:
-            if self.commit == True:
-                f.write(self.expense_info)
+        if commit == True:
+            self.df.to_csv(file, mode='a', header=False, index=False)
+            
 
+date_list = []
+item_type_list = []
+item_list = []
+cost_list = []
+counter = 0
 
-
-num_purchases = int(input("How many purchases did you make: "))
-budget = int(input("What is your budget: "))
-for x in range(num_purchases):
-    expense = input("What expense did you spend money on: ")
-    amount = float(input("How much did you spend: "))
-    expense_object = Spendings(amount, expense, num_purchases, budget)
-    expense_object.purchases()
-
-
-commit = input("Would you like to commit to a file: ")
+print("Welcome to the input for your purchases. If you wish to stop making " + 
+      "purchases at any time, you can enter 0 for the cost of the item.")
+while True:
+    cost = float(input("How much did your item cost: "))
+    if cost == 0:
+        break
+    cost_list.append(cost)
+    item_type = input("What kind of item did you buy: ")
+    item_type_list.append(item_type)
+    item = input("What item did you buy: ")
+    item_list.append(item)
+    date = input("On what date did you make the purchase: ")
+    date_list.append(date)
+    counter+=1
+    user_data = Spendings(cost_list, item_type_list, item_list, date_list)
+    print(user_data.create_df())
+print(f"You have made {counter} purchases overall")
+if counter > 0:
+    commit = input("Would you like to commit to a file: ")
+    if commit == 'y':
+        user_data.file_commit(True,"sample_data.csv")
+    else:
+            print("Thank you for using the program!")
