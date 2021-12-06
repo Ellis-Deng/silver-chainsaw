@@ -5,7 +5,7 @@ amount that an individual spends on a specific item."""
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def open_file(purchase_data):
+def open_file(self, purchase_data):
     """Opens a CSV file and turns it into a dataframe.
 
     Args:cl
@@ -15,10 +15,11 @@ def open_file(purchase_data):
     Returns:
         A dataframe for the inputed CSV file.
     """
+    self.purchase_data = purchase_data
     purchase_data = pd.read_csv("sample_data.csv")
     return purchase_data
 
-def graph(purchase_data):
+def graph(self):
     """Creates a graph based off of the given data. 
 
     Args:
@@ -27,14 +28,18 @@ def graph(purchase_data):
     Returns:
         A time series graph for all purchases that have been made. 
     """
-    purchase_data.plot(kind = 'line',
-                        x = 'date',
-                        y = 'price',
-                        color = 'red')
+    self.purchase_data.plot(kind = 'line',
+                        x = 'Date',
+                        y = 'Cost',
+                        color = 'blue',
+                        marker = 'o')
     plt.title('Purchases Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Cost in $')
+    plt.grid(True)
     return plt.show()
 
-def average_dataframe(purchase_data):
+def average_dataframe(self):
     """Creates a new dataframe for the average of each item given in the data. 
 
     Args:
@@ -43,10 +48,9 @@ def average_dataframe(purchase_data):
     Returns:
         A new dataframe that contains the average amount of money spent on each
     """
-    columns = purchase_data["Item", "Cost"]
-    item_price = purchase_data[columns]
+    columns = self.purchase_data["Item", "Cost"]
+    item_price = self.purchase_data[columns]
     avg_price = item_price.groupby("Item")["Cost"].mean()
     pie_chart = avg_price.plot.pie(y='Cost', figsize=(5,5))
     print(pie_chart)
-    return avg_price
-    
+    return avg_price    
