@@ -1,4 +1,4 @@
-"""Opens the text file created by Ajay, scrapes the numbers from the dictionary, and adds 
+"""Opens the csv file created by Ajay, scrapes the costs from the purchases, and adds 
 them up, divides this number by the number of days to get an average amount spent over the week. 
 Then, the program takes this number,  and adds the amount of an extra/bonus item that is randomly generated. 
 Then, the program determines if this additional item is a bad idea or not."""
@@ -7,7 +7,7 @@ def average(file, folder):
     """This function scrapes data and makes an average budget for weeks, which is then used by the following functions as well.
     It reads the daily spendatures, then compiles them into an average budget to be used later. 
     
-    Args: the file, preferably in text format, and the folder where the data comes from.
+    Args: the file, preferably in csv format, and the folder where the data comes from.
     
     Returns: average cost"""
     
