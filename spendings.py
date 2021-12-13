@@ -1,7 +1,59 @@
 import pandas as pd
-"""A possible way to record user input on their spendings"""
+import matplotlib.pyplot as plt
 
-class Spendings:
+class Graph:
+    def open_file(self, purchase_data):
+        """Opens a CSV file and turns it into a dataframe.
+
+    Args:
+        purchase_data: the name of the dataframe that the data is going to be
+        stored into. 
+        
+    Returns:
+        A dataframe for the inputed CSV file.
+    """
+        purchase_data = pd.read_csv("sample_data.csv")
+        self.purchase_data = purchase_data
+        print(purchase_data)
+        return purchase_data
+
+    def graph(self):
+        """Creates a graph based off of the given data. 
+
+        Args:
+            purchase_data (dataset): a dataframe of all purchases.
+            
+        Returns:
+            A time series graph for all purchases that have been made. 
+        """
+        self.purchase_data.plot(kind = 'line',
+                            x = 'Date',
+                            y = 'Cost',
+                            color = 'blue',
+                            marker = 'o')
+        plt.title('Purchases Over Time')
+        plt.xlabel('Date')
+        plt.ylabel('Cost in $')
+        plt.grid(True)
+        plt.show()
+        
+    def avg_pie(self):
+        
+        """Creates a new dataframe and a pie graph for the average of each item type 
+        given in the data. 
+            
+        Returns:
+            A new dataframe and pie chart for the average percentage spent 
+            on each item type.
+        """
+        avg = self.purchase_data.groupby("Item type")["Cost"].mean()
+        pie_graph = avg.plot(
+            kind='pie', autopct='%1.1f%%', explode=(0.1, 0.1, 0.1, 0.1),
+            title='Average Percentage Spent Per Item Type',
+            figsize=(7,7),
+            startangle=90)
+        plt.show()
+class Spending:
     """Records a user's spendings
     
     
@@ -87,14 +139,15 @@ while True:
     if cost == 0:
         break
     cost_list.append(cost)
-    item_type = input("What kind of item did you buy: ")
+    item_type = input("What kind of item did you buy (Food, Other, Utilities,"
+                      +" or Personal): ")
     item_type_list.append(item_type)
     item = input("What item did you buy: ")
     item_list.append(item)
     date = input("On what date did you make the purchase: ")
     date_list.append(date)
     counter+=1
-    user_data = Spendings(cost_list, item_type_list, item_list, date_list)
+    user_data = Spending(cost_list, item_type_list, item_list, date_list)
     print(user_data.create_df())
 if counter == 1:
     print(f"You have made {counter} purchase overall")
@@ -104,4 +157,9 @@ if counter > 0:
     commit = input("Would you like to commit to a file: ")
     if commit == 'y':
         user_data.file_commit(True,"sample_data.csv")
+        graphing = Graph()
+        graphing.open_file("sample_data.csv")
+        graphing.graph()
+        graphing.avg_pie()
+        
 print("Thank you for using the program!")
