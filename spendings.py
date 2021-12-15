@@ -62,12 +62,12 @@ class Graph:
             explode parameter. 
         """
         avg = self.purchase_data.groupby("Item type")["Cost"].mean()
-        pie_graph = avg.plot(
+        avg.plot(
             kind='pie', autopct='%1.1f%%', explode=(0.1, 0.1, 0.1, 0.1),
             title='Average Percentage Spent Per Item Type',
             figsize=(7,7),
             startangle=90)
-        plt.show(pie_graph)
+        plt.show()
         
 class Spending:
     """Records a user's spendings
