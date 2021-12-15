@@ -18,13 +18,19 @@ class Graph:
         return purchase_data
 
     def graph(self):
-        """Creates a graph based off of the given data. 
+        """Creates a time series graph based off of the given data. 
 
         Args:
             purchase_data (dataset): a dataframe of all purchases.
             
         Returns:
             A time series graph for all purchases that have been made. 
+            
+        Source:
+            I had used information from pandas.pydata.org to help develop the 
+            code for the time series graph below. The main thing that I had used 
+            from the website was the general layout of plot() because at the time 
+            of  creating this code I had no idea how to use plot(). 
         """
         self.purchase_data.plot(kind = 'line',
                             x = 'Date',
@@ -38,13 +44,22 @@ class Graph:
         plt.show()
         
     def avg_pie(self):
-        
         """Creates a new dataframe and a pie graph for the average of each item type 
         given in the data. 
             
         Returns:
             A new dataframe and pie chart for the average percentage spent 
             on each item type.
+            
+        Source:
+            I had used information from pandas.pydata.org to help develop the 
+            code for the pie graph below. Since I had the general structure from
+            the graph method, all I had to do was set the kind=pie. However, for
+            the other parameters such as autopct and explode, I had used 
+            matplotlib.org to set those up. The reason I wanted those two 
+            parameters in the pie chart are to display the percentages on each
+            slice and create a more visually appealing pie chart with the 
+            explode parameter. 
         """
         avg = self.purchase_data.groupby("Item type")["Cost"].mean()
         pie_graph = avg.plot(
@@ -52,7 +67,8 @@ class Graph:
             title='Average Percentage Spent Per Item Type',
             figsize=(7,7),
             startangle=90)
-        plt.show()
+        plt.show(pie_graph)
+        
 class Spending:
     """Records a user's spendings
     
