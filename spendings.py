@@ -2,12 +2,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 class Graph:
+    """Displays the user's spendings.
+    
+    Attributes:
+        purchase_data (dataframe): a dataframe that stores the user's spendings.
+    
+    """
     def open_file(self, purchase_data):
         """Opens a CSV file and turns it into a dataframe.
 
     Args:
-        purchase_data: the name of the dataframe that the data is going to be
-        stored into. 
+        purchase_data: a dataframe that stores the user's spendings.
         
     Returns:
         A dataframe for the inputed CSV file.
@@ -30,7 +35,14 @@ class Graph:
             I had used information from pandas.pydata.org to help develop the 
             code for the time series graph below. The main thing that I had used 
             from the website was the general layout of plot() because at the time 
-            of  creating this code I had no idea how to use plot(). 
+            of creating this code I had no idea how to use plot(). The reason I
+            used this specific source is because I was trying to plot data from
+            a dataframe. The modifications that I had made was changing the x
+            and y values, along with adding a marker and other aspects such as
+            a title to make the graph more visually appealing. 
+            
+            https://pandas.pydata.org/pandas-docs/version/0.23/generated/pandas.
+            DataFrame.plot.html
         """
         self.purchase_data.plot(kind = 'line',
                             x = 'Date',
@@ -44,8 +56,8 @@ class Graph:
         plt.show()
         
     def avg_pie(self):
-        """Creates a new dataframe and a pie graph for the average of each item type 
-        given in the data. 
+        """Creates a new dataframe and a pie graph for the average of each item 
+        type given in the data. 
             
         Returns:
             A new dataframe and pie chart for the average percentage spent 
@@ -59,7 +71,12 @@ class Graph:
             matplotlib.org to set those up. The reason I wanted those two 
             parameters in the pie chart are to display the percentages on each
             slice and create a more visually appealing pie chart with the 
-            explode parameter. 
+            explode parameter. The modifications I had made were setting the
+            specific plot to a pie plot, adding a specific figure size, and
+            changing the startangle.
+            
+            https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_feat
+            ures.html
         """
         avg = self.purchase_data.groupby("Item type")["Cost"].mean()
         avg.plot(
