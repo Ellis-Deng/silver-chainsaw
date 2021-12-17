@@ -194,5 +194,10 @@ if counter > 0:
         graphing.open_file("sample_data.csv")
         graphing.graph()
         graphing.avg_pie()
+    else:
+        graphing = Graph()
+        graphing.open_file("sample_data.csv")
+        graphing.graph()
+        graphing.avg_pie()
         
 print("Thank you for using the program!")
